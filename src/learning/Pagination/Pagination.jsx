@@ -24,14 +24,27 @@ const Pagination = () => {
 
     const handlePage=(page)=>{
         setPageNo(page);
+        setCurrentPage(page);
     }
 
     const handleNext=()=>{
-        setPageNo(pageNo+1);
+        if(pageNo===products.length/5){
+            setPageNo(1);
+            setCurrentPage(pageNo);
+        }else{
+          setPageNo(pageNo+1);
+          setCurrentPage(pageNo);
+        }
     }
 
     const handlePrev=()=>{
-        setPageNo(pageNo-1);
+       if(pageNo===1){
+            setPageNo(products.length/5);
+            setCurrentPage(pageNo);
+        }else{
+          setPageNo(pageNo-1);
+          setCurrentPage(pageNo);
+        }
     }
   
   return (
@@ -54,19 +67,19 @@ const Pagination = () => {
         
 
     </div>
-    <div className="pagination">
+        <div className="pagination">
             <span onClick={handlePrev}>←</span>
             {
               [...new Array(products.length/5)].map((val,i)=>{
                  return(
-                    <span onClick={()=>handlePage(i+1)}>{i+1}</span>
+                    <span className={currentPage===pageNo?"active":""} key={i} onClick={()=>handlePage(i+1)}>  {i+1}   </span>
                  )
               })
             }
             <span onClick={handleNext}>→</span>
-         </div>
+        </div>
          </>
   )
 }
 
-export default Pagination
+export default Pagination;

@@ -49,7 +49,7 @@
     border-radius: 3px;
     height: 30px;
     width: 30px;
-    background: rgb(213, 204, 204);
+   
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -61,3 +61,8 @@
     cursor: pointer; 
 }
 
+
+
+.active{
+    background: green;
+}
