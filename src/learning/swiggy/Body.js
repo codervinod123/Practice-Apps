@@ -1,28 +1,55 @@
 import React, { useState,useEffect } from "react";
 import Card from "./Card";
-import { items, imageCDN_URL } from "../../config";
+import {imageCDN_URL,apiURL } from "../../config";
+import Shimmer from "./Shimmer";
+import Not from "./Not";
 
-const filterRestaurant=(restaurants,searchText)=>{
-     const data=restaurants.filter((restaurants)=>{
-      return restaurants.data.name.includes(searchText);
-     })
-     return data;
+const filterDataFun=(searchText,allRestaurant)=>{
+    const data=allRestaurant.filter((restaurant)=>{
+      return restaurant.data.name.toLowerCase().includes(searchText.toLowerCase());
+    })
+    return data;
 }
 
 const Body = () => {
-  const [restaurants, setRestaurants] = useState(items);
-  const [searchText, setSearchText] = useState("");
+ 
+console.log(useState());
 
-  const handleSearch=()=>{
-    const filterData=filterRestaurant(restaurants,searchText);
-    setRestaurants(filterData);
+
+   const [searchText, setSearchText] = useState("");
+   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
+   const [allRestaurant, setAllRestaurant] = useState([]);
    
-  }
-  useEffect(()=>{
-    console.log("jay");
- },[searchText]);
-  console.log("render");
-  return (
+   useEffect(()=>{
+
+          getRestaurants();
+          console.log("re-rendering");
+   },[]);
+   
+   const getRestaurants=async()=>{
+      try {
+          const data=await fetch(apiURL);
+          const json=await data.json();
+          // setRestaurant(json);
+ 
+
+          //const data2=await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=26.7605545&lng=83.3731675&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+          //const json2=await data2.json();
+          //console.log(json2.data.cards[5].card.card.gridElements.infoWithStyle.restaurants);
+
+          console.log(json.data.cards[2].card.card.gridElements.infoWithStyle.restaurants);
+          setFilteredRestaurant(json.data.cards[2].card.card.gridElements.infoWithStyle.restaurants);
+          setAllRestaurant(json.data.cards[2].card.card.gridElements.infoWithStyle.restaurants);
+      } catch (error) {
+         console.log(`error has occured ${error}`);
+      }
+   }
+
+   
+  
+  
+  return (allRestaurant.length===0)? <Shimmer/>:
+   (
     <>
       <div className="border-2 border-indigo-500 p-4 gap-2">
         <input
@@ -32,14 +59,24 @@ const Body = () => {
           placeholder="search"
           onChange={(e)=>{setSearchText(e.target.value)}}
         />
-        {console.log("renderfkdf")}
-        <button className="border-2 border-indigo-500" onClick={handleSearch}>Search</button>
+       
+        <button 
+           className="border-2 border-indigo-500" 
+           onClick={()=> {
+               const filteredData=filterDataFun(searchText,allRestaurant);
+               setFilteredRestaurant(filteredData)}}>
+             Search
+        </button>
+
       </div>
 
       <div className="flex border-2 border-indigo-500 p-4 ">
-        {restaurants.map((item) => {
-          return (
-            <Card item={item} imageCDN_URL={imageCDN_URL} key={item.data.id} />
+       
+        {filteredRestaurant.map((item) => {
+
+          return (filteredRestaurant.length===0)? <Not/>:
+           (
+            <Card item={item} imageCDN_URL={imageCDN_URL} key={item.info.id}/>
           );
         })}
       </div>

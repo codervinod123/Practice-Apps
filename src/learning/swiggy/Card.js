@@ -1,12 +1,12 @@
 
 const Card=({item,imageCDN_URL})=>{
-    console.log(item.data.lastMileTravel);
+    // console.log(item.data.lastMileTravel);
     return(
-      <div className="border-2 border-indigo-500 ">
-          <img src={imageCDN_URL+item.data.cloudinaryImageId} alt="food_image" />
-          <h2 className="font-medium text-orange-300">{item.data.name}</h2>
-          <p>{item.data.cuisines.join(", ")}</p>
-          <p>{Math.round(item.data.lastMileTravel)} Minutes</p>
+      <div className="border border-indigo-500 ">
+           <img src={imageCDN_URL+item.info.cloudinaryImageId} alt="food_image" />
+           <h2 className="font-medium text-orange-300">{item.info.name}</h2>
+           <p>{item.info.avgRating}</p>
+           <p>{item.info.costForTwo} </p> 
       </div>
     )
   }

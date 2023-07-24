@@ -1,0 +1,854 @@
+javascript provide one way binding so to update any value we need to do two way binding and useState is a way to two way binding beacause normal variable is not able to provide two way binding.
+
+or (defination of two way data binding)
+
+reading and writing the same variable at different place is known as two way binding
+
+ const setterFun=useState();
+ const [searchText, setSearchText] = setterFun;
+
+     or
+
+ const [searchText, setSearchText] = useState();
+
+ both are the same Thing.
+
+useState resturns array of two values 1st one is variable and 2nd one is updater function that used to update the value of the variable.
+
+
+**interview most important**
+
+why we use useState for update the value
+
+supose i made a const and someone update my variable const variale then 
+react will not know that something has changed and it will not be able 
+to re-render the UI and can't tract updation because variable provide 
+one way binding.
+
+Every time we want to our variable to keep in synch with our UI then we need to
+ use useState which provide two way data binding.
+
+react keep on watching useState and whenever it changes then react react 
+destroy the whole body and creates it again because of reconcialiation is
+ happending behind the seen.
+
+whenever the state changes then react components re-render the whole
+ components and apply the diff algorithm to repainting the UI
+
+
+
+
+
+
+
+
+=========================vedio-6==========================================
+
+
+monolithic designing - when every part of a application is a part of one single 
+ project then it is known as monolithic architecture....there a lot of advantages
+ of monolith but a lot of drawback of monolith because we have to handle complete
+ application as a project.
+
+ and in microservices a hole app is breaked in different independent project and all 
+ the project has runs on different port---advantages- easier to test, easy to maintain,
+ modular designing,every project can written in different languages depending upon best usecase.
+ 
+
+ API
+
+ we should not call our api directly in component because whenever the anything 
+ change in react app then the comonent will be re-render and the api will be
+ called even if there is no need to call api so the best place to call API is 
+ 1->  Make an api call whenever the component is rendered. it will call the api
+      and then render the component it. (inefficient)
+ 2->  And the 2nd way is to call api render the page and i whenever 
+      the api returns some data  then update the ui with actual api data (efficient)
+
+
+both of the above called inside useEffect hook
+
+first of all the components render after that the useEffect executes; 
+hence useEffect is best block of code to call an API
+ 
+ useEffect(()=>{
+    api call -> whenever searchText changes
+ },[searchText]);
+
+ useEffect(()=>{
+    api call or useEffect will runs  -> whenever component initially renders
+ },[]);
+     
+
+ const useEffect(()=>{
+   // inside code will run after every render   
+ })
+   
+
+
+
+ useEffect runs initially when components is render and it executes everytime when 
+ dependency array changes and useEffect runs after component is rendered
+
+
+
+* any javascript can run inside react component but it should be javascript expression not javascript statement 
+
+expression -- console.log("expression");
+statement --   conat a=10;
+              console.log(a);
+              to make it expression we can do  ((const a=10), (console.log(a)));
+this is why we can not use if else ind=side react component and we are required to write turnery operator that is a js expression
+
+
+
+
+
+
+
+
+ ===================================vedio7========================================
+
+ const useEffect(()=>{
+   //statement
+ })
+
+ if we have no dependency array it means useEffect is not dependent on anything and it will be
+ called on every render  and if the dependency array will be empty then it will called just only once after initial render like below
+
+ const useEffect(()=>{
+   //statement
+ },[])
+
+
+ and we should not call useState in if /else or loop  condition because  the component will not be know
+ wheather the component is there or not and leads to inconsistency
+
+
+ we should not create a component inside another component because child will runs
+ everytime whenever Parent is called/ renders
+
+ import React from 'react'
+
+const Parent = () => {
+
+  const child=()=>{
+  return(
+    <h1>another app</h1>
+   )
+  }
+  return (
+    <div>Parents element</div>
+  )
+}
+export default Parent;
+
+
+
+
+read about  anchor tag vss Link tag
+
+The href attribute would trigger a page refresh which would reset the application states. However the link and navlink of react-router doesn't trigger a page refresh. Since React is used to create single page applications most of the time make sure you choose Link or Navlink when working with routing
+
+but at the end the link tag is converted to anchor tag in DOM  because link tag uses anchor tag behind the seen.
+
+and check you DOM whenever you are routing from one page to another page
+
+
+
+
+You can see that Link is a component, that internally use history. Which is the module|library behind the history and navigation for react-router. And come with different modes (in memory history, browserHistory, hashHistory. And even custom).
+
+Yea as a similarity it render an anchor tag but the default behavior is overridden (preventDefault()). They could have used just a div. But not completely right. 
+
+
+
+Single Page Application--->>
+
+single page application are those application in which our application does not make network
+call or relodes when we change the page.
+
+
+
+
+there are two type of routing--->server side and client side routing
+
+server side Routing- it is the way where all the pages comes from server and on every changes of the url then the new pages comes from server itself unlike in react . in server side routing all the pages load completly from scrath from servers.
+
+client side Routing-it is the way where all the pages comes from the client browser on changing url because all the pages loaded on client browser initially.
+
+
+
+
+
+link tag converted into anchor tag during the DOM tree creation
+read about Object.values
+optional chaining
+
+dynammic segments/(dynammic routing)--->> 
+
+
+
+To create routing in our app first of all we need to create a configuration
+
+import {createBrowseRouter} from "react-router-dom";
+
+
+//the below we are creating router with the help of createBrowseRouter function
+// and his is the place where i will define what will happen if i go to / page and what will happen if i go to /abc page ETC.
+
+and this i the recommended router for all react project by react community because it uses the DOM History API to update the URL and manage the history stack.
+
+
+import * as ReactDOM from "react-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+import Root, { rootLoader } from "./routes/root";
+import Team, { teamLoader } from "./routes/team";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    loader: rootLoader,
+    children: [
+      {
+        path: "team",
+        element: <Team />,
+        loader: teamLoader,
+      },
+    ],
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <RouterProvider router={router} />
+);
+
+
+
+An array of Route objects with nested routes on the children property.
+
+createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    loader: rootLoader,
+    children: [
+      {
+        path: "events/:id",
+        element: <Event />,
+        loader: eventLoader,
+      },
+    ],
+  },
+]);
+
+
+
+nested router 
+
+
+in root 
+
+{
+  path:"/about",
+  element:<About/>,
+  children:[
+      {
+       path:"profile",
+       element:<Profile />
+      }
+  ]
+},
+
+
+we can pass props over there
+               
+                {
+                   path:"profile",
+                   element:<Profile name={"vinod"}/>
+                 }
+
+
+
+in the componnets 
+
+import {Outlet} from "react-router-dom";
+const About = () => {
+  return (
+    <div>
+      About
+      <Outlet/>
+    </div>
+  )
+}
+
+
+suppose if someone has appended wrong url then react router dom  will handle it with page not found that's why react router dom is so powerful
+
+
+path: "/",
+    element: <Root />,
+    loader: rootLoader,
+    errorElement:<Error/>,
+
+    read about error page on /wrong_URL  and /about/wrong_URL
+ and learn 
+   import {useRouteError} from "react-router-dom"  hooks
+
+   const error=useRouteError();
+   console.log(error);
+
+
+
+==================================  vedio 8 ================================== 
+==================================  classbase Components ==================
+
+
+read react-routr-dom docs
+why we do super(props)
+we can't useEffect async and we can make componentDidMount assync
+
+
+
+* classbase component was build on top of javascript and initially the class base component were 
+  used in react that was  not as efficient as today and the component was also messy code 
+  ans it was having more code and less maintainable than functional component. 
+
+*   one of the most important method of the classbase component is render that resturn jsx inside it 
+ 
+
+
+import React from "react";
+class Profile extends React.Component{
+  render(){
+    return(
+      <>
+        <h1>hello from classbase componnent side</h1>
+      </>
+    )
+  }
+}
+
+export default Profile;
+
+
+* why class base component use extendes-------
+  because the classbase component is class  and need to inherit some property from React.Component
+
+we can not create class base comonent without render method
+what ever we write in return  method are added into our DOM
+
+
+How to pass pros and recive props inside class base components-
+
+import React from "react";
+class Profile extends React.component{
+  render(){
+    return (
+       <>
+         <p>{this.props.name}</p> 
+         <p>{this.props.age}</p> 
+       </>
+    )
+  }
+}
+
+when react tract Profile components then take all the props and attach this keyword with it and re-conciliation happens. 
+
+<Profile name={"vinod"} age={21}/>
+
+
+
+
+*******************************************************************************
+
+we use directly const [value,setValue]=useState(initial_value); in ract functional component 
+  but in classbase component react provide a constructor  which take a props and  it  do super(props);
+ 
+we are creating constructor because it is a place thet is used for initializzation 
+because whenever a class is invoked then firstly constructor runs so it is best place to 
+initialize a state 
+
+constructor(props){
+  super(props);
+  this.state{
+    count:0,
+    count1:2,   // basically whole state is a one big object  
+    count2:5,
+  }
+}
+
+to use this we need to write  or we can destructure it const {count}=this.state;
+<h1>{this.state.count}</h1>
+
+to set the state we can use 
+
+<Button onClick={()=>{
+   
+   this.setState({
+    count:1,           //  never try to mutate state directly in react componenets
+                      //   it does not matter wheather it is classbase or function base comonent 
+   })
+
+}}>
+
+
+          SteCount
+
+
+</Button>
+
+
+
+
+calling order of different part of the component
+1- constructor
+2- render
+3- componentDidMount
+
+state in class base components-
+
+import React from "react";
+class Profile extends React.component{
+
+//constructor is a place that is used for initialization
+
+   constructor(props){
+
+       super(props);
+       //  best place to create state
+
+       this.state={
+          count1:0,
+          count2:0
+       }
+
+    
+ }
+
+  render(){
+
+    const {count1,count2}=this.state;
+
+
+    //   componentDidMount will called after component is rendered
+    //   hence it is best place to call api
+    componentDidMount() {
+      
+    }
+
+
+    return (
+       <>
+         <p>{this.state.count1}</p> 
+         <p>{this.state.count2}</p> 
+         <!-- or -->
+         <p>{count1}</p>
+         <p>{count2}</p>
+         <button 
+
+         // we do not mutate state directly
+         //never do this    this.state= something
+
+            onClick={()=>{this.setState ({ (count2=1)} ) }}>
+              click 
+            </button>
+       </>
+    )
+  }
+}
+
+**************************************
+
+suppose we have created a component Named Parentcomponent and one other component Named
+Childcomponent and we called this Childcomponent inside Parentcomponent then what will happen 
+ first Parentcomponent life cycle will triger and runs whatever in constructor and after that 
+ runs render method and during render method it get that there is a Childcomponent then the 
+ Childcomponent life cycle will triger and then first  runs whatever in constructor and after that 
+ runs render method and at the last runs componentDidMount method of child component and after that 
+ the control of the code are returned back to the Parentcomponent and then componentDidMount method 
+ of the Parentcomponent will runs this is how classbase component executes.
+
+
+
+
+calling order of the Components in  classbase components
+
+<Parent>
+    <Child1></Child1>
+    <Child2></Child2>
+</Parent>
+
+
+Parent Constructor
+Parent Render
+   Child1 constructor
+   child1 render
+
+   child2 constructor
+   child2 render
+
+   child1 componentDidMount
+   child2 componentDidMount
+
+Parent's componentDidMount
+
+
+siblings's componentDidMount calledd in the same way in which they are called
+
+
+
+Lifecycle of the react classbase components
+ 
+ the rendering of react does in two phase 
+
+ 1- Render Phase- first of all react complete the render phase which includes constructor calling and render method.
+
+ render phase is faster than commit phase because commit phase need to updating the dom which is more complex than render phase
+
+
+ 2- Commit Phase- it is the plase where react is actually modifying the dom Tree and this componentDidMount done after initial render is finished. and commit phase is the best place to make an API call same as useEffect in react functional component.
+
+After executing componentDidMount , re-render is happen which is comes under updating lifecycle which is known as componentDidUpdate(); 
+
+and the componentWillUnmount() runs after updating the dom.
+It is called when we are leaving the page ,(when we switch from one page to another page ) or when that page about to unmount from the DOM 
+it is used for cleanup. whenwver we route from one page to another then componentWillUnmount will be called 
+
+===if we have put setInterval inside useEffect then we need to remove interval to do that we return inside useEffect
+
+useEffect(()=>{
+
+
+setInterval(()=>{
+
+})
+
+
+console.log("after render")
+return ()=>{
+  console.log("after changig the page it will be called");
+}
+
+},[]);
+
+
+
+we can make componentDidMount as async function but we can't make useEffect async 
+
+
+** how we call api in classbase and functional component
+
+useEffect(()=>{
+  calling API  -->>  everytime the state1, or state2 is changes the api will be called
+},[state1, state2]);
+
+
+componentDidMount(prevProps,prevState){
+    if(this.state.state1 !== prevState.state1  || this.state.state2 !== prevState.state2){
+      now the api will be called whenever the state1 or state2 changes 
+    }
+}
+
+
+
+
+==================================  vedio 9 ===================   ==================================
+
+
+ building our own hook and calling that from a function even we can contribute it to NPM community
+  
+
+
+
+
+
+why do we build our onw hook  -->> 
+when do we build our onw hook -->> when multiple component are uses same function to perform any task for exapmple --(filterDate())  then we will have to write filterDate in every component where it's needed in this case we make an utility folder and put the code which is commonly uses in different components hence we need to use components 
+why do we build our onw hook  -->> Reusability,readibility,seperation of concerns,maintainability, testable 
+
+hook 1 to filter data
+
+export const filterDataFun=(searchText,allRestaurant)=>{
+    const data=allRestaurant.filter((restaurant)=>{
+      return restaurant.data.name.toLowerCase().includes(searchText.toLowerCase());
+    })
+    return data;
+}
+
+
+in another component
+ import {filterDataFun} from "file_source";
+
+
+hook number 2 for calling api and setting result into state
+
+=================================================================
+
+create a component which named useRestaurant 
+
+  import {apiURL} from "file_path";
+
+  const useRestaurant=()=>{
+     const [reastaurant,setRestaurant]=useState(null);
+
+
+     const getRestaurants=async()=>{
+      try {
+          const data=await fetch(apiURL);
+          const json=await data.json();
+         setRestaurant(json);
+          
+      } catch (error) {
+         console.log(`error has occured ${error}`);
+      }
+   }
+
+   return  reastaurant;
+
+ } 
+
+export default useRestaurant;
+
+
+now you can import this hook and use restaurant for populating the data.
+
+const restaurant=useRestaurant();
+
+
+===================== you are offline functionaliy when internet goes off===================
+
+Making a functionality with the help of custom hook wheather you are online or offline.
+
+make a file named useOnline file and write inside it
+
+const useOnline=()=>{
+    consy [isOnline,setIsOnline]=useState(true);
+
+    useEffect(()=>{
+
+         window.addEventListener( 'online' , ()=>{
+                setIsOnline(true);
+          })
+
+          window.addEventListener( 'offline' , ()=>{
+                setIsOnline(false);
+          })
+
+
+    },[])
+
+    return isOnline; //trus of false
+}
+
+
+export default useOnline;
+
+now we can use it into another component
+
+
+import {useOnline} from "path of the code wheere the useOnline has written"
+const onlineStatus=useOnline;
+
+
+if(onlineStatus) ?component :  <h1> You are offline </h1>;
+
+
+
+how to make above code as a senior devloper code  
+
+to make a senior devloper code we need to cleaning the cache and enevnListener to make the app efficient .
+everytime whenever we are going online/offline every time it will create new eventListener but it is not in above case because of empty dependency array
+but if we route from one page to another page and come back again on the same page then i would create new eventListener everytime we route in this case we need to 
+clear the cache 
+
+
+
+const useOnline=()=>{
+    consy [isOnline,setIsOnline]=useState(true);
+
+    useEffect(()=>{
+
+
+        const handleOnline=()=>{
+              isOnline(true);
+        }
+          
+        const handleOffLine=()=>{
+              isOnline(false);
+        }  
+
+       
+         window.addEventListener('online' , handleOnline)
+         window.addEventListener('offline' , handleOffLine)
+
+        return ()=>{
+            window.removeEventListener('online' , handleOnline)
+            window.removeEventListener('offline' , handleOffLine)
+        }
+
+     
+    },[])
+
+    return isOnline; //trus of false
+}
+
+
+Core job of a bundler
+bundling the things up.
+
+
+
+In a big application there is a thounsand of component . Each and every module is a component and take some time to loads 
+in this case if we bundle up all component in a single js file in this case it would make our app very very slow because of the size  of that one file.
+and does't make sence to put all code into a single file.
+
+in this case a concept comes named chunking aka code splitting aka dyanamic bundling aka lazy loading ake ondemand loading aka dynamic import.
+
+case study-- if a person visit to make my trip then there is a high chance he has arrived to 
+the application with a predefined intent the intent can be that he has comes to book flight 
+or book bus , book train ticket. suppose if he has arrived to
+book a flight then there is a very very less chance that he will visit to train ticket section or bus .
+
+
+in this case it is a very bad idea to load all the component (bus's , train's ,plane's ) in the browser 
+in this case we build different chunks based upon the usecases it is the palce where   
+chunking aka code splitting aka dyanamic bundling aka lazy loading aka ondemand loading aka dynamic import comes into picture. 
+and devloper shound make sure the bundle of the particular section loads in the browser only when it is needed 
+
+
+
+example of lazy loading
+
+suppose we are creating an application where i have created a component for delivery partner 
+int this component there is 100 of component is included in this case we can use lazy oading/ondemand loading etc.
+
+
+
+const onDemandComponent=()=>{
+  return(
+    <>
+       <h1>there is 100 of components over here</h1>
+    </h1>
+  )
+}
+
+export default onDemandComponent;
+
+
+now when we need to import it then we will use lazy function
+
+import {lazy} from "react";
+
+const onDemandComponent=lazt(()=>import("path"));
+
+const App=()=>{
+  <>
+     <onDemandComponent />
+  </>
+}
+export default App;
+
+
+this is how we can deal with the path_error 
+
+ 
+const App=()=>{
+  <>
+     <onDemandComponent />
+  </>
+}
+export default App;
+
+
+
+
+-----call  the onDemandComponent on visiting on a particular link
+
+const Header=()=>{
+  return(
+    <>
+      <Link to="/lazyloading_component ">
+         Click_me_to_load_onDemandComponent_in_browser.
+      </Link>
+    </Link>
+  )
+}
+export default Header;
+
+
+
+
+normally when we are at root path then browser will not have onDemandComponent file and as we visit to root/lazyloading_component 
+then onDemandComponent will be loaded into the browser  and i will be there and whenever we go to the path root/lazyloading_component 
+then it will show by taking thw file from browser without loading it from server because it is a single
+page application. 
+
+but in the above code as soon as we visit on root/lazyloading_component   link it will show path_error 
+because as soon as we visit root/lazyloading_component then it will try rendering onDemandComponent which is not in the browser it wil took a little amount of time 
+hence we can see path_error in this case Suspense comes into picture   in other word we can say in this condition 
+react will try to suspend the loading of the component because browser does't know that what is onDemandComponent component 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==========================lecture 10===========================================
+
+we can use make multiple css framework in our project but we should not use because it brings inconsistency in the designing of the page.
+
+cons of using css library
+
+* it maks our bundle  aize heavy.
+* personal customization is very hard.
+
+ways of writing CSS
+1-inline
+2-exrernal
+3-use Library which have prebuild component
+4- internal css in the head tag
+
+
+
+*  Jobs become heavy for the browser to processing the inline CSS. and always try to avoid writing css like this
+
+pros of library-  easy to use, reusable,  consistent UI, 
+cons of library- makes our bundle size heavy, personal customization become hard 
+
+we can use 2 or more framework in a single project but we should not use 
+multiple framework in a single project because they makes our bundle size heavy
+
+property of tailwind-- inline csss make very easy production ready app and make it fast ,reusability, lesser bundle size because it include inn css file only those classes that we have use in our project,
+                       we can build flexible UI, saves a lot of time, easier to debuging css ,less code , no duplicate css ,
+
+cons of  tailwind-- initial learning curve , less devloper who know tailwind CSS,
+                    less readable code ,                    
+
+
+
