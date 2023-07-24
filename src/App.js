@@ -1,35 +1,24 @@
-import React,{useState} from 'react';
-import Travel from "./learning/Travel/Travel";
-import dat from './data';
+import React from "react"; 
 
+// import Header from "./learning/swiggy/Header";
+// import Footer from "./learning/swiggy/Footer";
+// import Body from "./learning/swiggy/Body";
 
-const App = () => {
- 
-  const [data, setdata] = useState(dat);
+// =================Top cources==========
+import Header from "./learning/Topcources/Header";
+import Filter from "./learning/Topcources/Filter";
+import {filterData,apiUrl} from "./topcourse";
 
-  function removeTour(id) {
-    const newTours = data.filter(data => data.id !== id);
-    setdata(newTours);
-  }
-
-  const Refresh=()=>{
-    setdata(dat);
-  }
-  if(data.length<=0)
-  {
-    return(
-      <>
-        <h1>Please refres the page</h1>
-        <button onClick={Refresh}>Refresh</button>
-      </>
-    )
-  }
-
-  return (
-    <div>
-        <Travel data={data} removeTour={removeTour}/>
-    </div>
+const App=()=>{
+  return(
+    <>
+       {/* <Header/>
+       <Body/>
+       <Footer/> */}
+       <Header/>
+       <Filter filterData={filterData}/>
+    </>
   )
 }
 
-export default App
+export default App;

@@ -1,41 +1,32 @@
-import react,{useEffect,useState} from "react";
-import "./travel.css";
-const Card=(props)=>{
+import React,{useState} from 'react'
 
-    const {id,name,info,image,price}=props.data;
-    
-    const [readmore,setReadmore]=useState(false);
-  
-    const desc=readmore?info:`${info.substring(0,100)}`
-    const readmoreHandler=()=>{
-        setReadmore(!readmore); 
-    }
-    
-    return(
-        <>
-           <div className="wrapper">
-              <div className="place-image">
-                <img src={image} alt="place-image" />
-              </div>
-              <div className="details">
-                   <span className="price">{price}</span>
-                   <span className="place-name">{name}</span>
-                   <div className="description">
-                        <p>{desc}</p> 
-                        
-                        {
-                            <span className="read-more" onClick={readmoreHandler}>
-                              { readmore?"read less":"read more"}
-                            </span>
-                        }
-                           
-                        
-                   </div>
-              </div>
-              <button onClick={()=>props.removeTour(id)}>Not Intrested</button>
-           </div>    
-        </>
-    )
+const Card = ({data,selectChoice}) => {
+ 
+  const  [readMore, setReadmore] = useState(true);
+  const description=readMore? data.info.substring(0,200) : data.info;
+
+  const handleClickMore=()=>{
+    setReadmore(!readMore);  
+  }
+
+  return (
+    <div>
+        <img src={data.image} alt="place_pic" />
+        <div>
+           <h4 className='text-green-500 font-medium'>$ {data.price}</h4>
+           <h4 className='text-purple-500 font-medium'>{data.name}</h4>
+        </div>
+        <div>
+           {description}
+           <span onClick={handleClickMore} className='font-medium cursor-pointer text-blue-400'>
+             {
+              readMore?"Read More":"Read Less"
+             }
+           </span>
+        </div>
+        <button className='cursor-ponter border-2 border-purple-600 m-3 px-3 py-1 rounded' onClick={()=>selectChoice(data.id)}>Not Intreasted</button>
+    </div>
+  )
 }
 
-export default Card;
+export default Card

@@ -1,5 +1,5 @@
-const data=[
-    {
+export const data = [
+	{
 		id: 1,
 		name: "Agra",
 		info: "Agra is a city in northern India, known for the iconic Taj Mahal, a stunning white marble mausoleum built by Mughal emperor Shah Jahan in memory of his beloved wife. Agra is also home to several other historic and architectural wonders, including Agra Fort and Fatehpur Sikri.",
@@ -47,7 +47,5 @@ const data=[
 		info: "Kochi is a port city in the Indian state of Kerala, known for its historic connections to trade and commerce. The city is home to several stunning churches, synagogues, and mosques, as well as a rich culinary tradition that blends Indian, Portuguese, and other influences.",
 		image: "https://cdn.thecodehelp.in/Kochi.jpeg",
 		price: "68,595",
-	}
+	},
 ];
-
-export default data;

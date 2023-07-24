@@ -1,0 +1,80 @@
+javascript provide one way binding so to update any value we need to do two way binding and useState is a way to two way binding beacause normal variable is not able to provide two way binding.
+
+or (defination of two way data binding)
+
+reading and writing the same variable at different place is known as two way binding
+
+ const setterFun=useState();
+ const [searchText, setSearchText] = setterFun;
+
+     or
+
+ const [searchText, setSearchText] = useState();
+
+ both are the same Thing.
+
+useState resturns array of two values 1st one is variable and 2nd one is updater function that used to update the value of the variable.
+
+
+**interview most important**
+
+why we use useState for update the value
+
+supose i made a const and someone update my variable const variale then 
+react will not know that something has changed and it will not be able 
+to re-render the UI and can't tract updation because variable provide 
+one way binding.
+
+Every time we want to our variable to keep in synch with our UI then we need to
+ use useState which provide two way data binding.
+
+react keep on watching useState and whenever it changes then react react 
+destroy the whole body and creates it again because of reconcialiation is
+ happending behind the seen.
+
+whenever the state changes then react components re-render the whole
+ components and apply the diff algorithm to repainting the UI
+
+
+
+
+
+
+
+
+=========================vedio-6==========================================
+
+
+monolithic designing - when every part of a application is a part of one single 
+ project then it is known as monolithic architecture....there a lot of advantages
+ of monolith but a lot of drawback of monolith because we have to handle complete
+ application as a project.
+
+ and in microservices a hole app is breaked in different independent project and all 
+ the project has runs on different port---advantages- easier to test, easy to maintain,
+ modular designing,every project can written in different languages depending upon best usecase.
+ 
+
+ API
+
+ we should not call our api directly in component because whenever the anything 
+ change in react app then then the comonent will be re-render and the api will be
+ called even if there is no need to call api so the best place to call API is 
+ 1->  Make an api call whenever the component is rendered. it will call the api
+      and then render the component it it. (inefficient)
+ 2->  And the 2nd way is to call api render the page and call the api whenever 
+      the api is served then update the ui with actual api data (efficient)
+
+
+both of the above called inside useEffect hook
+
+first of all the components render after that the useEffect executes; 
+hence useEffect is best block of code to call an API
+ 
+ useEffect(()=>{
+    api call -> whenever searchText changes
+ },[searchText]);
+
+ useEffect(()=>{
+    api call -> whenever component initially renders
+ },[]);
