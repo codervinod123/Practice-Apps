@@ -627,33 +627,51 @@ Making a functionality with the help of custom hook wheather you are online or o
 
 make a file named useOnline file and write inside it
 
-const useOnline=()=>{
-    consy [isOnline,setIsOnline]=useState(true);
 
-    useEffect(()=>{
 
-         window.addEventListener( 'online' , ()=>{
+
+import {useState,useEffect} from "react"
+
+ const useOnline=()=>{
+     
+     const [isOnline,setIsOnline]=useState(true);
+    
+        useEffect(()=>{
+
+            const handleOnline=()=>{
                 setIsOnline(true);
-          })
-
-          window.addEventListener( 'offline' , ()=>{
+            }
+    
+            const handleOffline=()=>{
                 setIsOnline(false);
-          })
-
-
-    },[])
-
-    return isOnline; //trus of false
+            }
+    
+            window.addEventListener('online',handleOnline)
+        
+            window.addEventListener('offline',handleOffline)
+        
+            return()=>{
+               window.removeEventListener('online',handleOnline);
+               window.removeEventListener('offline',handleOffline);
+            } 
+            
+        },[])
+        
+      return isOnline;
 }
 
-
 export default useOnline;
+
+
+
+    
+ 
 
 now we can use it into another component
 
 
 import {useOnline} from "path of the code wheere the useOnline has written"
-const onlineStatus=useOnline;
+const onlineStatus=useOnline();
 
 
 if(onlineStatus) ?component :  <h1> You are offline </h1>;
