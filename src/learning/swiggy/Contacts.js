@@ -1,9 +1,14 @@
 import React from 'react'
+import { Component } from 'react/cjs/react.production.min'
 
-const Contacts = () => {
-  return (
-    <div>Contacts</div>
-  )
+class Contacts extends Component{
+  render(){
+    return(
+      <>
+          <h1>Contacts hai appun</h1>
+      </>
+    )
+  }
 }
 
-export default Contacts
+export default Contacts;

@@ -1,11 +1,17 @@
 import React,{useEffect, useState} from "react";
 import {Link} from "react-router-dom"
 
+import { useContext } from "react";
+import userContext from "../utils/userContext";
 const Title=()=>{
+
+   const {user}=useContext(userContext);
+
   return(
       <Link to="/" className="flex items-center gap-3 font-medium text-2xl text-orange-500">
          <img className="h-14 cursor-pointer rounded-full " src="https://w7.pngwing.com/pngs/664/210/png-transparent-uber-eats-muncheez-delivery-online-food-ordering-food-delivery-food-logo-uber-eats-thumbnail.png" alt="Logo" />
          <span>Food Villa</span>
+         <p>{user.name}</p>
       </Link>
   )
 }
@@ -76,6 +82,17 @@ const Header=()=>{
                </Link>
             </li>
 
+            <li className="cursor-pointer">
+               <Link to="/instamart">
+                 Instamart
+               </Link>
+            </li>
+
+            <li className="cursor-pointer">
+               <Link to="/ondemandcomponent">
+                 lazy
+               </Link>
+            </li>
            </ul>
         </div>
      </div>

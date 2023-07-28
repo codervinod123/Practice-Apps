@@ -726,7 +726,7 @@ and devloper shound make sure the bundle of the particular section loads in the 
 example of lazy loading
 
 suppose we are creating an application where i have created a component for delivery partner 
-int this component there is 100 of component is included in this case we can use lazy oading/ondemand loading etc.
+int this component there is 100 of component is included in this case we can use lazy loading/ondemand loading etc.
 
 
 
@@ -745,7 +745,7 @@ now when we need to import it then we will use lazy function
 
 import {lazy} from "react";
 
-const onDemandComponent=lazt(()=>import("path"));
+const onDemandComponent=lazy(()=>import("path"));
 
 const App=()=>{
   <>
@@ -757,11 +757,15 @@ export default App;
 
 this is how we can deal with the path_error 
 
- 
+import {Suspense} from "react";
+
 const App=()=>{
+
+  const onDemandComponent=lazt(()=>import("path"));    //  never ever do this 
   <>
-     <onDemandComponent />
-  </>
+    <Suspense fallback={<Shimmer />}>
+      <onDemandComponent />
+   </Suspense>
 }
 export default App;
 
@@ -851,4 +855,119 @@ cons of  tailwind-- initial learning curve , less devloper who know tailwind CSS
                     less readable code ,                    
 
 
+
+
+
+
+
+
+
+====================================  vedio 11 ==================================================
+
+
+
+The view that we see is distributed into 2 layers 1st one is known as UI layer and 2nd layer known as data layer.
+and the ui layer is powered by data layer and the data within frontend is maintained by state and props 
+
+
+Babel converts jsx into a object and that object is virtual DOM. and that Virtual DOM are use to reconciliation and appliy the diff algorithm. 
+
+=======================================================
+
+App
+   Body 
+      Child 
+         GrandChild
+
+in this case we have to apss data through props drilling.
+suppose in the above case App is parent of Body and Body is parent of Child and child is parent of Grantchild 
+if we want send data to the GrandChild then we can't send directly we will have to go througt App-> Body-> Child-> GrandChild 
+because we don't have direct access to GrandChild from App.
+
+the above scenario is like a chain known as props drilling.
+sending data from one component to another component and then to another component so on....
+this is known as props drilling. but in this case there is high chances of data breaching. 
+
+but we can not send data from child to parent because data flow in react is one directional but it is very rare when we send data from child to parent .
+
+==========================================Lifting the state up ========================
+
+it is a way to send the data from chile to aprent component 
+
+
+profiler in react ddev tool-
+
+
+in a large scale application there is so many component then it become tough to debug in this case profiler
+comes into picture , it record the whole session/ user journey (how the component and when it loaded everything
+and for how many times it was shown).
+and it shows the how the component is rendered.  and it records the whole activity of the user.
+
+it is not possible to use profiler on the application which in remote it's only for devlopment phase.
+
+
+we did't use global variable in react which changes because react does't track normal variable.
+
+
+==========================useContext====================================
+
+useContext works as a central store which can be accessed from anywhere in the application 
+
+
+import {createContext} from "react";
+
+const userContext=createContext({
+      user:{
+        name:"vinod prajapati",
+       email:"vinodpr737947@gmail.com"
+     }
+})
+
+userContext.displayName="contextforusername"  //-->  displayname for usercontext that will not be tracked,  suppose there is a lot of context then how will you identify that which one is which so it is used for identifying the context 
+
+export default userContext;
+
+
+to use above context in another component we have to import 
+
+import {useContext} from "react";
+
+import userContext from "path of the store"
+
+const {user}=useContext(userContext);
+
+now user have the data from userContext;
+
+
+
+but above case is hardcoded we will have to make it generic by using below
+
+  import userContext from "./learning/utils/userContext";
+
+  const [user,setUser]=useState({name:"abhishek",email:"vinodpr737947"});
+   
+  return(
+    <>
+      <userContext.Provider value={{user:user}}>
+         <Header/>
+         <Outlet/>
+         <Footer/>
+       </userContext.Provider>
+    </>
+  )
+
+
+we will have to everything inside provider wherever we want to use user data .
+
+if we put dooter outside the provider then we will not be able to use user data inside footer component 
+
+now  the default value of the use will change as per the user we are passing into the <userContext.Provider value={{user:user}}>
+and the user can comes from api call or wherever. 
+
+
+class components does't have hooks.
+
+
+
+ 
 

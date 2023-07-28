@@ -1,8 +1,11 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, useContext } from "react";
 import Card from "./Card";
 import {imageCDN_URL,apiURL } from "../../config";
 import Shimmer from "./Shimmer";
 import Not from "./Not";
+
+import userContext from "../utils/userContext";
+
 
 const filterDataFun=(searchText,allRestaurant)=>{
     const data=allRestaurant.filter((restaurant)=>{
@@ -15,10 +18,14 @@ const Body = () => {
  
 console.log(useState());
 
+  const {user,setUser}=useContext(userContext);
 
    const [searchText, setSearchText] = useState("");
    const [filteredRestaurant, setFilteredRestaurant] = useState([]);
    const [allRestaurant, setAllRestaurant] = useState([]);
+
+   
+
    
    useEffect(()=>{
 
@@ -59,6 +66,8 @@ console.log(useState());
           placeholder="search"
           onChange={(e)=>{setSearchText(e.target.value)}}
         />
+
+       
        
         <button 
            className="border-2 border-indigo-500" 
@@ -67,6 +76,14 @@ console.log(useState());
                setFilteredRestaurant(filteredData)}}>
              Search
         </button>
+
+        <input
+          className="border-2 border-indigo-500"
+          type="text"
+          value={user.name}
+          placeholder="search"
+           onChange={(e)=>{setUser({name:e.target.value})}}
+        />
 
       </div>
 
