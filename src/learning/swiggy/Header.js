@@ -3,6 +3,11 @@ import {Link} from "react-router-dom"
 
 import { useContext } from "react";
 import userContext from "../utils/userContext";
+
+
+import { useSelector } from "react-redux";
+
+
 const Title=()=>{
 
    const {user}=useContext(userContext);
@@ -19,8 +24,9 @@ const Title=()=>{
 
 const Header=()=>{
 
-
-
+//   const items=useSelector(store=> store.cart);
+  const items=useSelector(store=>store.cart.items);
+  console.group(items);
 
    const [isOnline,setIsOnline]=useState(true);
 
@@ -70,9 +76,9 @@ const Header=()=>{
                   Contact
                </Link>
             </li>
-            <li className="cursor-pointer">
+            <li className="cursor-pointer text-green-600">
                <Link to="/cart">
-                 Cart
+                 Cart -{items.length}
                </Link>
             </li>
   

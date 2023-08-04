@@ -44,6 +44,7 @@ console.log(useState());
           //const json2=await data2.json();
           //console.log(json2.data.cards[5].card.card.gridElements.infoWithStyle.restaurants);
 
+         
           console.log(json.data.cards[2].card.card.gridElements.infoWithStyle.restaurants);
           setFilteredRestaurant(json.data.cards[2].card.card.gridElements.infoWithStyle.restaurants);
           setAllRestaurant(json.data.cards[2].card.card.gridElements.infoWithStyle.restaurants);
@@ -87,7 +88,7 @@ console.log(useState());
 
       </div>
 
-      <div className="flex border-2 border-indigo-500 p-4 ">
+      <div className="flex flex-wrap border-2 border-indigo-500 p-4 justify-evenly">
        
         {filteredRestaurant.map((item) => {
 

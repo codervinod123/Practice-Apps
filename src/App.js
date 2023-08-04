@@ -18,7 +18,12 @@ import RestaurantMenu from "./learning/swiggy/RestaurantMenu";
 import Profile from "./learning/swiggy/Profile";
 import Instamart from "./learning/swiggy/Instamart";
 
+
+import {Provider} from "react-redux"
+import store from "./learning/utils/Store";
+
 const LazyLoadedComponent=lazy(()=>{import("./learning/swiggy/Lazyloading")})
+
 
 
 // =================Top cources==========
@@ -37,17 +42,16 @@ const App=()=>{
    
   return(
     <>
-      <userContext.Provider value={{
-         user:user,
-         setUser:setUser
-         }}>
-         <Header/>
-         <Outlet/>
-         <Footer/>
-       </userContext.Provider>
-       {/* <Header/>
-       <Filter filterData={filterData}/>
-       <Cards /> */}
+        <Provider store={store}>
+         <userContext.Provider value={{
+            user:user,
+            setUser:setUser
+           }}>
+           <Header/>
+           <Outlet/>
+           <Footer/>
+          </userContext.Provider>
+          </Provider>
     </>
   )
 }

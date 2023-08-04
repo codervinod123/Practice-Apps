@@ -987,5 +987,79 @@ class components does't have hooks.
 
 
 
+
+
+
+
+====================================vedio 12=======================================
+
+
+Need of Redux - it is used to manage Data layer of the application generally we use redux when we need to
+                handle a lot of data inside a big application.
+
+usecase of redux - Data management,Big Application, 
+cons of redux - it's very complex,huge learning curve
+
+it's very tough to deal directly with redux so redux come up with redux toolkit which is a little bit 
+easy than redux 
+
+the main goal of the redux toolkit is to write redux logics and it was
+ originally created to resolve the 3 issue with redux toolkit 
+
+ 1 - configuring a redux store is too complicated.
+ 2 - have to import a lot of package to get working with redux
+ 3 - redux requires too much boilerplates
+
+
+ Redux store - redux store are is like a big object which has diff section and those section has different slices 
+               and all the component will be able to access store which has wrapped by redux 
+               store is a central place where data can be stored and that store can be accesssed from anywhere in the app.
+               
+               each store can have different slices.
+               ex- userslice,cart slice, auth slice etc
+
+               we have not access to modify the slices directly by emitting some event.
+
+                to modify the slice we need to dispatch an action  and this action will call a function that is known as reducer
+                and this function has ability to modify our cart .
+
+               data is very essential so we did't modify the slice so we use a kind of process to modify our store's slice 
+               ant it is architecture  of redux to update the slice. 
+
+
+               suppose we click on ADD button the this will dispatch an action and action will call a function  (suppose name is addItemToCart)
+               and the called function (addItemToCart) will modify the slice  .
+
+               now if we want to read the slice of store then we have to call the selector and this selector is an hook
+
+     summary Press ADD button --> dispatch and action--->call reducer function---> access to store --->now to react the store's slice we need to use selector  (selector is an hook) and the slice is subscribe to the component using selector.
+     
+     
+
+   
+core job of react-redux to maintain store, create slice ,maintain slices  and other library that we install is bridge between react and redux
+
+
+
+
+npm i @reduxjs/toolkit
+npm i react-redux 
+
+
+create store.js or name_of_file.js 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 
